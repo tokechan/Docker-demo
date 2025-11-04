@@ -1,6 +1,8 @@
-# React ± Laravel デモアプリケーション
+# React + Laravel デモアプリケーション
 
-フロントエンド（React）とバックエンド（Laravel API）を Docker コンテナでまとめて立ち上げる構成を検証するためのデモアプリケーションです。単体での手動起動手順も併記していますが、基本は Docker Compose を使ってフロント・バック・MySQL を一括で起動する想定です。
+フロントエンド（React）とバックエンド（Laravel API）を Docker コンテナでまとめて立ち上げる構成を検証するためのデモアプリケーション。
+単体での手動起動手順も併記。
+基本は Docker Compose を使ってフロント・バック・MySQL を一括で起動する想定。
 
 ## プロジェクト構造
 
@@ -100,7 +102,7 @@ php artisan serve --host=127.0.0.1 --port=8787
 ```bash
 docker-compose up --build
 ```
-※ 初回ビルド後は `docker-compose up -d`（バックグラウンド起動）で十分。コードはホスト側を編集するとコンテナに反映される
+※ 初回ビルド後は `docker-compose up -d`（バックグラウンド起動）で十分。コードはホスト側を編集するとコンテナに反映。
 
 - ブラウザアクセス
   - フロントエンド: http://localhost:5173
