@@ -1,6 +1,7 @@
 # demo アプリケーション
-
-ReactとLaravelを繋ぎこむ検証です
+検証内容
+- ReactとLaravelを繋ぎこむ
+- Atomic designでコンポーネント化
 
 ## プロジェクト構造
 
