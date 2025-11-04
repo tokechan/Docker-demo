@@ -52,7 +52,7 @@ composer install
 cp .env.example .env
 php artisan key:generate
 php artisan migrate
-php artisan serve
+php artisan serve --host=127.0.0.1 --port=8787
 ```
 
 - テスト用ログイン情報
@@ -62,7 +62,7 @@ php artisan serve
 ## 開発環境
 
 - フロントエンド: http://localhost:5173
-- バックエンドAPI: http://localhost:8000
+- バックエンドAPI: http://localhost:8787
 
 ## 使用技術
 
@@ -90,3 +90,28 @@ php artisan serve
 - `POST /api/todos` - 新しいToDoを作成
 - `PUT /api/todos/{id}` - 指定したToDoを更新
 - `DELETE /api/todos/{id}` - 指定したToDoを削除
+
+## Docker を使用した起動方法
+
+### 前提
+- Docker / Docker Compose が利用可能であること
+
+### 起動手順
+```bash
+docker-compose up --build
+```
+
+- ブラウザアクセス
+  - フロントエンド: http://localhost:5173
+  - バックエンドAPI: http://localhost:8787
+- MySQL 接続情報（docker compose で作成されるデモ用）
+  - ホスト: `127.0.0.1`
+  - ポート: `3306`
+  - データベース: `todo_demo`
+  - ユーザー: `todo_user`
+  - パスワード: `secret`
+
+### 停止
+```bash
+docker-compose down
+```
