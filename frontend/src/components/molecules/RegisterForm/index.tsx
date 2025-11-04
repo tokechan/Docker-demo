@@ -118,27 +118,25 @@ export const RegisterForm: React.FC<RegisterFormProps> = ({ onSwitchToLogin }) =
     if (state.error) {
       clearError();
     }
-    if (passwordError) {
-      setPasswordError('');
-    }
-  }, [username, email, password, confirmPassword]);
+    setPasswordError('');
+  }, [username, email, password, confirmPassword, state.error, clearError]);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     console.log('新規登録ボタンがクリックされました');
-    
+
     // パスワードの一致確認
     if (password !== confirmPassword) {
       console.log('パスワード不一致エラー');
       setPasswordError('パスワードが一致しません');
       return;
     }
-    
+
     try {
       console.log('登録処理開始:', username, email);
       const success = await register(username, email, password);
       console.log('登録結果:', success ? '成功' : '失敗');
-      
+
       if (success) {
         console.log('登録成功、ホームページにリダイレクトします');
         // 登録成功時の処理は、AuthContextのリダイレクトに任せる

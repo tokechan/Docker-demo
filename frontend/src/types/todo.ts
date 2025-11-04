@@ -4,4 +4,4 @@ export type Todo = {
   completed: boolean;
 };
 
-export type FilterStatus = "all" | "active" | "completed";
+export type FilterStatus = 'all' | 'active' | 'completed';

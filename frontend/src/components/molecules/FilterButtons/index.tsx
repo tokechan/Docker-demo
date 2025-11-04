@@ -18,22 +18,13 @@ const FilterButtonsContainer = styled.div`
 `;
 
 // FilterButtonsコンポーネント
-export const FilterButtons: React.FC<FilterButtonsProps> = ({
-  currentFilter,
-  onFilterChange,
-}) => {
+export const FilterButtons: React.FC<FilterButtonsProps> = ({ currentFilter, onFilterChange }) => {
   return (
     <FilterButtonsContainer>
-      <FilterButton
-        isActive={currentFilter === 'all'}
-        onClick={() => onFilterChange('all')}
-      >
+      <FilterButton isActive={currentFilter === 'all'} onClick={() => onFilterChange('all')}>
         すべて
       </FilterButton>
-      <FilterButton
-        isActive={currentFilter === 'active'}
-        onClick={() => onFilterChange('active')}
-      >
+      <FilterButton isActive={currentFilter === 'active'} onClick={() => onFilterChange('active')}>
         未完了
       </FilterButton>
       <FilterButton

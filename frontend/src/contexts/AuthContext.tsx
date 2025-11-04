@@ -18,15 +18,15 @@ const authReducer = (state: AuthState, action: AuthAction): AuthState => {
       return {
         ...state,
         loading: true,
-        error: null
+        error: null,
       };
     case 'LOGIN_SUCCESS':
-    case 'REGISTER_SUCCESS':
+    case 'REGISTER_SUCCESS': {
       // ユーザー情報をローカルストレージに保存
       const userStr = JSON.stringify(action.payload);
       localStorage.setItem('user', userStr);
       console.log('ローカルストレージに保存しました:', userStr);
-      
+
       // 新しい状態を返す
       const newState = {
         ...state,
@@ -37,6 +37,7 @@ const authReducer = (state: AuthState, action: AuthAction): AuthState => {
       };
       console.log('新しい認証状態:', newState);
       return newState;
+    }
     case 'LOGIN_FAILURE':
     case 'REGISTER_FAILURE':
       localStorage.removeItem('user');
@@ -88,7 +89,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
       try {
         // ローディング状態をセット
         console.log('ローカルストレージからユーザー情報を読み込み中...');
-        
+
         // ローカルストレージからユーザー情報を取得
         const user = localStorage.getItem('user');
         if (user) {
@@ -110,7 +111,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
         dispatch({ type: 'LOGOUT' });
       }
     };
-    
+
     loadUser();
   }, []);
 
@@ -119,38 +120,42 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
     try {
       // ログイン処理開始
       dispatch({ type: 'LOGIN_REQUEST' });
-      
+
       console.log('ログイン試行:', email, password);
-      
+
       // デバッグ用にタイムアウトを追加
-      await new Promise(resolve => setTimeout(resolve, 500));
-      
+      await new Promise((resolve) => setTimeout(resolve, 500));
+
       // モックログイン - 後でAPIに置き換え
       const matchedUser = mockUsers.find(
         (mockUser) => mockUser.email === email && mockUser.password === password
       );
-      
+
       if (matchedUser) {
-        const { password: _password, ...user } = matchedUser;
-        
+        const user: User = {
+          id: matchedUser.id,
+          username: matchedUser.username,
+          email: matchedUser.email,
+        };
+
         // ログイン成功
         console.log('ログイン成功:', user);
-        
+
         try {
           // ユーザー情報をローカルストレージに保存
           const userStr = JSON.stringify(user);
           localStorage.setItem('user', userStr);
           console.log('ローカルストレージに保存しました:', userStr);
-          
+
           // リダイレクトの前にディスパッチ
           dispatch({ type: 'LOGIN_SUCCESS', payload: user });
-          
+
           // 状態を確認
           setTimeout(() => {
             const currentUser = localStorage.getItem('user');
             console.log('ログイン確認 - ローカルストレージのユーザー:', currentUser);
           }, 100);
-          
+
           return true;
         } catch (storageError) {
           console.error('ローカルストレージ保存エラー:', storageError);
@@ -159,7 +164,10 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
         }
       } else {
         console.log('ログイン失敗: 認証情報が一致しません');
-        dispatch({ type: 'LOGIN_FAILURE', payload: 'メールアドレスまたはパスワードが正しくありません' });
+        dispatch({
+          type: 'LOGIN_FAILURE',
+          payload: 'メールアドレスまたはパスワードが正しくありません',
+        });
         return false;
       }
     } catch (error) {
@@ -174,20 +182,21 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
     try {
       // 登録処理開始
       dispatch({ type: 'REGISTER_REQUEST' });
-      
+
       console.log('登録試行:', username, email);
-      
+      void password; // モック実装のためパスワードは保持しない
+
       // モック登録 - 後でAPIに置き換え
-      const user = {
+      const user: User = {
         id: Date.now().toString(),
         username,
         email,
       };
-      
+
       // 登録成功
       console.log('登録成功:', user);
       dispatch({ type: 'REGISTER_SUCCESS', payload: user });
-      
+
       // ユーザー情報をローカルストレージに保存
       localStorage.setItem('user', JSON.stringify(user));
       return true;
@@ -216,6 +225,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
 };
 
 // カスタムフック
+// eslint-disable-next-line react-refresh/only-export-components
 export const useAuth = () => {
   const context = useContext(AuthContext);
   if (context === undefined) {

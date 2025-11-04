@@ -9,12 +9,12 @@ const handleResponse = async (response: Response) => {
     const error = await response.json().catch(() => ({}));
     throw new Error(error.message || 'APIリクエストに失敗しました');
   }
-  //レスポンスが空の場合（例　DELETEリクエスト）
+  // レスポンスが空の場合（例: DELETE リクエスト）
   const contentType = response.headers.get('content-type');
   if (contentType && contentType.includes('application/json')) {
     return response.json();
   }
-  return null;//空のレスポンスの場合
+  return null; // 空のレスポンスの場合
 };
 
 // Todoリストの取得

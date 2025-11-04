@@ -25,11 +25,14 @@ function App() {
           <AppContainer>
             <Routes>
               <Route path="/auth" element={<AuthPage />} />
-              <Route path="/" element={
-                <PrivateRoute>
-                  <TodoContainer />
-                </PrivateRoute>
-              } />
+              <Route
+                path="/"
+                element={
+                  <PrivateRoute>
+                    <TodoContainer />
+                  </PrivateRoute>
+                }
+              />
               <Route path="*" element={<Navigate to="/" replace />} />
             </Routes>
           </AppContainer>

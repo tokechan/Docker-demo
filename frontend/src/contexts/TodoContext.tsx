@@ -1,6 +1,5 @@
 import React, { createContext, useContext } from 'react';
 import { Todo, FilterStatus } from '../types/todo';
-import { useAuth } from './AuthContext';
 import { useTodos } from '../hooks/useTodos';
 
 // コンテキストの型定義
@@ -18,13 +17,10 @@ interface TodoContextType {
   refreshTodos: () => Promise<Todo[] | undefined>;
 }
 
-
-
 const TodoContext = createContext<TodoContextType | undefined>(undefined);
 
 // プロバイダーコンポーネント
 export const TodoProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
-  const { state: authState } = useAuth();
   const {
     todos,
     filterStatus,
@@ -35,9 +31,9 @@ export const TodoProvider: React.FC<{ children: React.ReactNode }> = ({ children
     updateTodo,
     deleteTodo,
     setFilterStatus,
-    refreshTodos
+    refreshTodos,
   } = useTodos();
-  
+
   // コンテキスト値
   const contextValue: TodoContextType = {
     todos,
@@ -49,17 +45,14 @@ export const TodoProvider: React.FC<{ children: React.ReactNode }> = ({ children
     deleteTodo,
     updateTodo,
     setFilterStatus,
-    refreshTodos
+    refreshTodos,
   };
-  
-  return (
-    <TodoContext.Provider value={contextValue}>
-      {children}
-    </TodoContext.Provider>
-  );
+
+  return <TodoContext.Provider value={contextValue}>{children}</TodoContext.Provider>;
 };
 
 // カスタムフック
+// eslint-disable-next-line react-refresh/only-export-components
 export const useTodoContext = () => {
   const context = useContext(TodoContext);
   if (context === undefined) {

@@ -118,35 +118,35 @@ export const LoginForm: React.FC<LoginFormProps> = ({ onSwitchToRegister }) => {
     if (state.error) {
       clearError();
     }
-  }, [email, password]);
-  
+  }, [email, password, state.error, clearError]);
+
   // 認証状態が変更されたときの処理
   useEffect(() => {
     console.log('ログインフォーム: 認証状態変更', state);
-    
+
     // 認証済みの場合はホームページにリダイレクト
     if (state.isAuthenticated && state.user) {
       console.log('認証済み、ホームページにリダイレクトします');
       navigate('/');
     }
-  }, [state.isAuthenticated, state.user, navigate]);
+  }, [state, state.isAuthenticated, state.user, navigate]);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     console.log('ログインボタンがクリックされました');
-    
+
     try {
       // デバッグ用にローカルストレージをクリア
       localStorage.removeItem('user');
       console.log('ログイン前のローカルストレージをクリアしました');
-      
+
       const success = await login(email, password);
       console.log('ログイン結果:', success ? '成功' : '失敗');
-      
+
       if (success) {
         console.log('ログイン成功、状態確認:', state);
         console.log('ローカルストレージ確認:', localStorage.getItem('user'));
-        
+
         // リダイレクトは useEffect で処理されるので、ここでは何もしない
       }
     } catch (error) {

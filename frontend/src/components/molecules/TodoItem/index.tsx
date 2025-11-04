@@ -36,7 +36,9 @@ const TodoText = styled.span<{ completed: boolean }>`
   font-size: 16px;
   color: ${(props) => (props.completed ? '#6c757d' : '#212529')};
   text-decoration: ${(props) => (props.completed ? 'line-through' : 'none')};
-  transition: color 0.2s, text-decoration 0.2s;
+  transition:
+    color 0.2s,
+    text-decoration 0.2s;
 `;
 
 //編集用入力フィールドのスタイル
@@ -52,7 +54,7 @@ export const TodoItem: React.FC<TodoItemProps> = ({
   completed,
   onToggle,
   onDelete,
-  onEdit, 
+  onEdit,
 }) => {
   //編集モードの状態管理
   const [isEditing, setIsEditing] = useState(false);
@@ -72,7 +74,7 @@ export const TodoItem: React.FC<TodoItemProps> = ({
       e.preventDefault();
       handleSave();
     }
-  }
+  };
 
   //編集キャンセル時の処理
   const handleCancel = () => {
@@ -80,36 +82,30 @@ export const TodoItem: React.FC<TodoItemProps> = ({
     setIsEditing(false);
   };
 
-
-  
   return (
     <TodoItemContainer data-id={id}>
-      <TodoCheckbox
-        type="checkbox"
-        checked={completed}
-        onChange={onToggle}
-      />
+      <TodoCheckbox type="checkbox" checked={completed} onChange={onToggle} />
 
       {isEditing ? (
         <>
-        <EditInput
-          value={editText}
-          onChange={(e) => setEditText(e.target.value)}
-          onKeyDown={handleKeyDown}
-          autoFocus
-        />
-        <ActionButton onClick={handleSave}>🙆</ActionButton>
-        <ActionButton onClick={handleCancel}>🙅‍♀️</ActionButton>
+          <EditInput
+            value={editText}
+            onChange={(e) => setEditText(e.target.value)}
+            onKeyDown={handleKeyDown}
+            autoFocus
+          />
+          <ActionButton onClick={handleSave}>🙆</ActionButton>
+          <ActionButton onClick={handleCancel}>🙅‍♀️</ActionButton>
         </>
       ) : (
         <>
-      <TodoText completed={completed}>{text}</TodoText>
-      <ActionButton onClick={() => setIsEditing(true)}>✏️</ActionButton>
-      <ActionButton onClick={onDelete}>
-        <span role="img" aria-label="delete">
-          🗑️
-        </span>
-      </ActionButton>
+          <TodoText completed={completed}>{text}</TodoText>
+          <ActionButton onClick={() => setIsEditing(true)}>✏️</ActionButton>
+          <ActionButton onClick={onDelete}>
+            <span role="img" aria-label="delete">
+              🗑️
+            </span>
+          </ActionButton>
         </>
       )}
     </TodoItemContainer>

@@ -16,5 +16,5 @@ export const storage = {
     } catch (error) {
       console.error(`Error writing to localStorage:`, error);
     }
-  }
+  },
 };

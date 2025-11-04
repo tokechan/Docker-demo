@@ -79,19 +79,12 @@ const LogoutButton = styled.button`
 
 // TodoContainerコンポーネント
 export const TodoContainer: React.FC = () => {
-  const {
-    todos,
-    addTodo,
-    toggleTodo,
-    deleteTodo,
-    updateTodo,
-    filterStatus,
-    setFilterStatus,
-  } = useTodoContext();
-  
+  const { todos, addTodo, toggleTodo, deleteTodo, updateTodo, filterStatus, setFilterStatus } =
+    useTodoContext();
+
   const { state, logout } = useAuth();
   const [localUser, setLocalUser] = useState<User | null>(null);
-  
+
   // ローカルストレージからユーザー情報を取得
   useEffect(() => {
     try {
@@ -105,7 +98,7 @@ export const TodoContainer: React.FC = () => {
       console.error('TodoContainer: ローカルストレージからの読み込みエラー:', error);
     }
   }, []);
-  
+
   // 認証状態をデバッグ表示
   useEffect(() => {
     console.log('TodoContainer: 認証状態変更:', state);
@@ -115,8 +108,8 @@ export const TodoContainer: React.FC = () => {
   }, [state, localUser]);
 
   // 未完了のタスク数を計算
-  const activeTodosCount = todos.filter(todo => !todo.completed).length;
-  
+  const activeTodosCount = todos.filter((todo) => !todo.completed).length;
+
   // ユーザー名の頭文字を取得
   const getUserInitial = () => {
     // まずは状態からユーザー情報を取得
@@ -129,7 +122,7 @@ export const TodoContainer: React.FC = () => {
     }
     return '?';
   };
-  
+
   // ユーザー名を取得
   const getUsername = () => {
     if (state.user && state.user.username) {
@@ -140,7 +133,7 @@ export const TodoContainer: React.FC = () => {
     }
     return 'ユーザー';
   };
-  
+
   // 認証状態を確認
   const isUserAuthenticated = state.isAuthenticated || !!localUser;
 
@@ -155,10 +148,7 @@ export const TodoContainer: React.FC = () => {
       )}
       <Title>Todoリスト</Title>
       <TodoForm onAddTodo={addTodo} />
-      <FilterButtons
-        currentFilter={filterStatus}
-        onFilterChange={setFilterStatus}
-      />
+      <FilterButtons currentFilter={filterStatus} onFilterChange={setFilterStatus} />
       <TodoList
         todos={todos}
         onToggleTodo={toggleTodo}
